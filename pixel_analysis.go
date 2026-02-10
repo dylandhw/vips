@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 type Pixel struct {
 	mean            float32
 	variance        float32
@@ -39,11 +35,8 @@ var ImageFrames = []string{
 
 func ProcessImageFrames() {
 	if cellBuffer == nil {
-		fmt.Printf("no buffer :( \n")
-	} else {
-		fmt.Printf("buffer! \n")
+		panic("buffer failed")
 	}
-
 	for _, frame := range ImageFrames {
 		ExtractPixelStats(frame)
 	}

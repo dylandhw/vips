@@ -65,7 +65,7 @@ func PartitionImage() {
 			defer buffer.Close()
 
 			cellBuffer = bytes.NewBuffer(buffer.GetBytes())
-			fmt.Printf("Buffer size: %d bytes\n", cellBuffer.Len())
+			fmt.Printf(">> Buffer size: %d bytes\n", cellBuffer.Len())
 
 			count++
 		}
