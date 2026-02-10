@@ -54,6 +54,8 @@ func PartitionImage() {
 
 			// what we need to do here is load the specific grid into a buffer
 			// then hand it over to pixel analysis
+			//
+			// let's eventually parallelize our buffers... we will work on that tomorrow. should speed things up significantly!
 			buffer, err := gocv.IMEncode(".jpg", cell)
 
 			if err != nil {
