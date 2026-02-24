@@ -21,8 +21,8 @@ type Grid struct {
 	x1, y1, x2, y2 int
 }
 
-func ExtractPixelStats(cellPixels []byte, cellWidth, cellHeight, rol, col int, bayerPattern string) Grid {
-	var rPixels, g1Pixels, g2Pixels, b1Pixels []byte
+func ExtractPixelStats(cellPixels []byte, cellWidth, cellHeight, row, col int, bayerPattern string) Grid {
+	var rPixels, g1Pixels, g2Pixels, bPixels []byte
 
 	for y := 0; y < cellHeight; y++ {
 		for x := 0; x < cellWidth; x++ {
@@ -39,11 +39,22 @@ func ExtractPixelStats(cellPixels []byte, cellWidth, cellHeight, rol, col int, b
 				} else if !even_row && even_col {
 					g2Pixels = append(g2Pixels, pixel)
 				} else {
-					b1Pixels = append(b1Pixels, pixel)
+					bPixels = append(bPixels, pixel)
 				}
 			}
 		}
 	}
 
-	return Grid{}
+	return Grid{
+		row: int16(row),
+		col: int16(col),
+		pattern: cfaPattern{
+			r:  computePixelStats(rPixels),
+			g1: computePixelStats(g1Pixels),
+			g2: computePixelStats(g2Pixels),
+			b:  computePixelStats(bPixels),
+		},
+	}
 }
+
+func computePixelStats(pixels []byte) Pixel {}
