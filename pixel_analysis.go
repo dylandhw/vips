@@ -26,7 +26,14 @@ func ExtractPixelStats(cellPixels []byte, cellWidth, cellHeight, rol, col int, b
 
 	for y := 0; y < cellHeight; y++ {
 		for x := 0; x < cellWidth; x++ {
+			pixel := cellPixels[y*cellWidth*x]
+			even_row := y%2 == 0
+			even_col := x%2 == 0
 
+			switch bayerPattern {
+			case "RGGB":
+
+			}
 		}
 	}
 
