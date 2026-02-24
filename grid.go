@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"image"
+	"sync"
 
 	"gocv.io/x/gocv"
 )
@@ -55,28 +56,14 @@ func PartitionImage() {
 			index := r*columns + c
 			cell := frame.Region(image.Rect(x1, y1, x2, y2))
 			cells := append(cells, cellData{index, cell})
-
-			// with image write = ~1.11ms, without = ~3.8µs
-			//filename := fmt.Sprintf("cell_%d.jpg", count)
-			//gocv.IMWrite(filename, cell)
-
-			// what we need to do here is load the specific grid into a buffer
-			// then hand it over to pixel analysis
-			//
-			// let's eventually parallelize our buffers... we will work on that tomorrow. should speed things up significantly!
-			buffer, err := gocv.IMEncode(".jpg", cell)
-			cell.Close()
-
-			if err != nil {
-				fmt.Printf("trouble loading cell into buffer")
-			}
-
-			cellBuffer = bytes.NewBuffer(buffer.GetBytes())
-			buffer.Close()
-
-			fmt.Printf("Buffer size: %d bytes\n", cellBuffer.Len())
-
-			count++
 		}
+	}
+
+	var wg sync.WaitGroup
+	var mu sync.Mutex
+
+	for _, cd := range cells {
+		wg.Add(1)
+
 	}
 }
