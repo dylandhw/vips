@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"image"
 	"sync"
@@ -14,7 +13,7 @@ var columns = 3
 
 type CellBuffer struct {
 	index  int
-	buffer *bytes.Buffer
+	pixels []byte
 }
 
 func PartitionImage() {
@@ -33,7 +32,7 @@ func PartitionImage() {
 	cellWidth := frameColumns / columns
 
 	totalCells := rows * columns
-	cellBuffers := make([]*bytes.Buffer, totalCells)
+	cellPixels := make([][]byte, totalCells)
 
 	type cellData struct {
 		index int
@@ -62,7 +61,6 @@ func PartitionImage() {
 	}
 
 	var wg sync.WaitGroup
-	var mu sync.Mutex
 
 	for _, cd := range cells {
 		wg.Add(1)
@@ -70,21 +68,9 @@ func PartitionImage() {
 			defer wg.Done()
 			defer cd.mat.Close()
 
-			buffer, err := gocv.IMEncode(".jpg", cd.mat)
-			if err != nil {
-				fmt.Printf("trouble encoding cell %d\n", cd.index)
-				return
-			}
-			buf := bytes.NewBuffer(buffer.GetBytes())
-			buffer.Close()
-
-			_ = mu
-			cellBuffers[cd.index] = buf
-			fmt.Printf("cell %d buffer size: %d bytes\n", cd.index, buf.Len())
+			cellPixels[cd.index] = cd.mat.ToBytes()
 		}(cd)
 	}
 
 	wg.Wait()
-
-	fmt.Printf("cellBuffers %v", cellBuffers)
 }
