@@ -34,9 +34,8 @@ var ImageFrames = []string{
 }
 
 func ProcessImageFrames() {
-	if cellBuffer == nil {
-		panic("buffer failed")
-	}
+
+	// check buffers
 	for _, frame := range ImageFrames {
 		ExtractPixelStats(frame)
 	}
