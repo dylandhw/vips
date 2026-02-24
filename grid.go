@@ -31,7 +31,9 @@ func PartitionImage() {
 	frameColumns := frame.Cols()
 	cellHeight := frameRows / rows
 	cellWidth := frameColumns / columns
+
 	totalCells := rows * columns
+	cellBuffers := make([]*bytes.Buffer, totalCells)
 
 	type cellData struct {
 		index int
@@ -55,7 +57,7 @@ func PartitionImage() {
 
 			index := r*columns + c
 			cell := frame.Region(image.Rect(x1, y1, x2, y2))
-			cells := append(cells, cellData{index, cell})
+			cells = append(cells, cellData{index, cell})
 		}
 	}
 
@@ -76,7 +78,13 @@ func PartitionImage() {
 			buf := bytes.NewBuffer(buffer.GetBytes())
 			buffer.Close()
 
-
-		}
+			_ = mu
+			cellBuffers[cd.index] = buf
+			fmt.Printf("cell %d buffer size: %d bytes\n", cd.index, buf.Len())
+		}(cd)
 	}
+
+	wg.Wait()
+
+	fmt.Printf("cellBuffers %v", cellBuffers)
 }
