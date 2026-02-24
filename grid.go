@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"image"
 	"sync"
 
@@ -11,12 +10,9 @@ import (
 var rows = 3
 var columns = 3
 
-func PartitionImage() {
+func PartitionImage() []Grid {
 	frame := gocv.IMRead("./bayer-simulation2.png", gocv.IMReadAnyDepth|gocv.IMReadGrayScale)
-	if frame.Empty() {
-		fmt.Println("error reading image")
-		return
-	}
+
 	defer frame.Close()
 
 	frameRows := frame.Rows()
@@ -24,7 +20,7 @@ func PartitionImage() {
 	cellHeight := frameRows / rows
 	cellWidth := frameColumns / columns
 
-	cellPixels := make([][]byte, rows*columns)
+	grids := make([]Grid, rows*columns)
 	var wg sync.WaitGroup
 
 	for r := 0; r < rows; r++ {
@@ -44,11 +40,14 @@ func PartitionImage() {
 				}
 
 				cell := frame.Region(image.Rect(x1, y1, x2, y2))
-				cellPixels[r*columns+c] = cell.ToBytes()
+				pixels := cell.ToBytes()
 				cell.Close()
+				grids[r*columns+c] = ExtractPixelStats(pixels, cellWidth, cellHeight, r, c, "RGGB")
+
 			}(r, c)
 		}
 	}
 
 	wg.Wait()
+	return grids
 }

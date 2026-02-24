@@ -22,7 +22,7 @@ type Grid struct {
 }
 
 func ExtractPixelStats(cellPixels []byte, cellWidth, cellHeight, rol, col int, bayerPattern string) Grid {
-	var rPixels, g1Pixels, g2Pixels, bPixels []byte
+	var rPixels, g1Pixels, g2Pixels, b1Pixels []byte
 
 	for y := 0; y < cellHeight; y++ {
 		for x := 0; x < cellWidth; x++ {
@@ -32,7 +32,15 @@ func ExtractPixelStats(cellPixels []byte, cellWidth, cellHeight, rol, col int, b
 
 			switch bayerPattern {
 			case "RGGB":
-
+				if even_row && even_col {
+					rPixels = append(rPixels, pixel)
+				} else if even_row && !even_col {
+					g1Pixels = append(g1Pixels, pixel)
+				} else if !even_row && even_col {
+					g2Pixels = append(g2Pixels, pixel)
+				} else {
+					b1Pixels = append(b1Pixels, pixel)
+				}
 			}
 		}
 	}
