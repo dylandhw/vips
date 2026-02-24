@@ -11,7 +11,10 @@ import (
 var rows = 3
 var columns = 3
 
-var cellBuffer *bytes.Buffer
+type CellBuffer struct {
+	index  int
+	buffer *bytes.Buffer
+}
 
 func PartitionImage() {
 
@@ -25,11 +28,13 @@ func PartitionImage() {
 
 	frameRows := frame.Rows()
 	frameColumns := frame.Cols()
-
 	cellHeight := frameRows / rows
 	cellWidth := frameColumns / columns
 
-	count := 0
+	type cellData struct {
+		index int
+		mat   gocv.mat
+	}
 	// let's see how long this operation takes
 	for r := 0; r < rows; r++ {
 		for c := 0; c < columns; c++ {
