@@ -69,7 +69,15 @@ func computePixelStats(pixels []byte) Pixel {
 	}
 	mean := float32(sum) / float32(len(pixels))
 
+	variance := float32(0)
+	for _, p := range pixels {
+		diff := float32(p) - mean
+		variance += diff * diff
+	}
+	variance /= float32(len(pixels))
+
 	return Pixel{
-		mean: mean,
+		mean:     mean,
+		variance: variance,
 	}
 }
