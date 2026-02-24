@@ -69,6 +69,12 @@ func PartitionImage() {
 			defer cd.mat.Close()
 
 			buffer, err := gocv.IMEncode(".jpg", cd.mat)
+			if err != nil {
+				fmt.Printf("trouble encoding cell %d\n", cd.index)
+				return
+			}
+			buf := bytes.NewBuffer(buffer.GetBytes())
+			buffer.Close()
 
 
 		}
