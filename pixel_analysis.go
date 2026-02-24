@@ -70,7 +70,7 @@ func computePixelStats(pixels []byte) Pixel {
 	}
 	mean := float32(sum) / float32(len(pixels))
 
-	// variance - avg of squared deviations
+	// variance; avg of squared deviations
 	variance := float32(0)
 	for _, p := range pixels {
 		diff := float32(p) - mean
@@ -78,7 +78,7 @@ func computePixelStats(pixels []byte) Pixel {
 	}
 	variance /= float32(len(pixels))
 
-	// gradient energy - sum of squared differences amongst adjacent pixels
+	// gradient energy; sum of squared differences amongst adjacent pixels
 	gradientEnergy := uint32(0)
 	for i := 1; i < len(pixels); i++ {
 		diff := int(pixels[i] - pixels[i-1])
@@ -86,9 +86,19 @@ func computePixelStats(pixels []byte) Pixel {
 	}
 	gradientEnergy /= uint32(len(pixels))
 
+	// bit entropy; count of set bits across all pixels
+	bitCount := int16(0)
+	for _, p := range pixels {
+		for p != 0 {
+			bitCount += int16(p & 1)
+			p >>= 1
+		}
+	}
+
 	return Pixel{
 		mean:            mean,
 		variance:        variance,
 		gradient_energy: uint16(gradientEnergy),
+		bit_entropy:     bitCount,
 	}
 }
