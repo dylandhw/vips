@@ -64,6 +64,13 @@ func PartitionImage() {
 
 	for _, cd := range cells {
 		wg.Add(1)
+		go func(cd cellData) {
+			defer wg.Done()
+			defer cd.mat.Close()
 
+			buffer, err := gocv.IMEncode(".jpg", cd.mat)
+
+
+		}
 	}
 }
