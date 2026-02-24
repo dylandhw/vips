@@ -30,12 +30,14 @@ func PartitionImage() {
 	frameColumns := frame.Cols()
 	cellHeight := frameRows / rows
 	cellWidth := frameColumns / columns
+	totalCells := rows * columns
 
 	type cellData struct {
 		index int
-		mat   gocv.mat
+		mat   gocv.Mat
 	}
-	// let's see how long this operation takes
+	cells := make([]cellData, 0, totalCells)
+
 	for r := 0; r < rows; r++ {
 		for c := 0; c < columns; c++ {
 			y1 := r * cellHeight
@@ -50,7 +52,9 @@ func PartitionImage() {
 				x2 = frameColumns
 			}
 
+			index := r*columns + c
 			cell := frame.Region(image.Rect(x1, y1, x2, y2))
+			cells := append(cells, cellData{index, cell})
 
 			// with image write = ~1.11ms, without = ~3.8µs
 			//filename := fmt.Sprintf("cell_%d.jpg", count)
