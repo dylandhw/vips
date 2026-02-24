@@ -57,6 +57,11 @@ func ExtractPixelStats(cellPixels []byte, cellWidth, cellHeight, row, col int, b
 	}
 }
 
+// noise isolation
+func noiseIsolation() {}
+
+func filterDeadPixels() {}
+
 // here we will be computing mean, variance, gradient energy, and bit entropy
 func computePixelStats(pixels []byte) Pixel {
 	if len(pixels) == 0 {
