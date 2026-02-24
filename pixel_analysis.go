@@ -15,30 +15,20 @@ type cfaPattern struct {
 }
 
 type Grid struct {
-	row     int16
-	col     int16
-	pattern cfaPattern
+	row            int16
+	col            int16
+	pattern        cfaPattern
+	x1, y1, x2, y2 int
 }
 
-// remember to port this over for live video processing
-var ImageFrames = []string{
-	"cell_0.jpg",
-	"cell_1.jpg",
-	"cell_2.jpg",
-	"cell_3.jpg",
-	"cell_4.jpg",
-	"cell_5.jpg",
-	"cell_6.jpg",
-	"cell_7.jpg",
-	"cell_8.jpg",
-}
+func ExtractPixelStats(cellPixels []byte, cellWidth, cellHeight, rol, col int, bayerPattern string) Grid {
+	var rPixels, g1Pixels, g2Pixels, bPixels []byte
 
-func ProcessImageFrames() {
+	for y := 0; y < cellHeight; y++ {
+		for x := 0; x < cellWidth; x++ {
 
-	// check buffers
-	for _, frame := range ImageFrames {
-		ExtractPixelStats(frame)
+		}
 	}
-}
 
-func ExtractPixelStats(frame string) {}
+	return Grid{}
+}
