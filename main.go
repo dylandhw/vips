@@ -11,11 +11,14 @@ const (
 )
 
 func main() {
-	fmt.Println(green + "    Video Integrity And Provenanve System    " + yellow + "\n")
+	fmt.Println(green + "---------------------------------------------" + yellow + "\n")
+	fmt.Println(green + "    Video Integrity And Provenance System    " + yellow + "\n")
+	fmt.Println(green + "---------------------------------------------" + yellow + "\n")
+
 	start := time.Now()
 
 	PartitionImage()
 
 	elapsed := time.Since(start)
-	fmt.Println("execution time: \n", elapsed)
+	fmt.Println("Time to perform image partitioning and pixel analysis per frame: ", elapsed)
 }
