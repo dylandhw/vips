@@ -57,4 +57,16 @@ func ExtractPixelStats(cellPixels []byte, cellWidth, cellHeight, row, col int, b
 	}
 }
 
-func computePixelStats(pixels []byte) Pixel {}
+// here we will be computing mean, variance, gradient energy, and bit entropy
+func computePixelStats(pixels []byte) Pixel {
+	if len(pixels) == 0 {
+		return Pixel{}
+	}
+
+	sum := 0
+	for _, p := range pixels {
+		sum += int(p)
+	}
+
+	return Pixel{}
+}
