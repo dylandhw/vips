@@ -58,6 +58,8 @@ func ExtractPixelStats(cellPixels []byte, cellWidth, cellHeight, row, col int, b
 }
 
 // noise isolation
+// result(x,y) = raw(x,y) - smoothed(x,y)
+// create blurred version w/ gaussianblur then subtract from the original. do we want to do it here or in partitioning?
 func noiseIsolation() {}
 
 func filterDeadPixels() {}
