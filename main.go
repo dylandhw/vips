@@ -17,8 +17,8 @@ func main() {
 
 	start := time.Now()
 
-	PartitionImage()
+	fmt.Print(PartitionImage())
 
 	elapsed := time.Since(start)
-	fmt.Println("Time to perform image partitioning and pixel analysis per frame: ", elapsed)
+	fmt.Println("\n\nTime to perform image partitioning and pixel analysis per frame: ", elapsed)
 }
